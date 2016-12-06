@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Componentes</title>
+    <script src="http://fb.me/react-with-addons-0.12.0.js"></script>
+    <script src="http://fb.me/JSXTransformer-0.12.0.js"></script>
+</head>
+<body>
+    <div id="ejemplo"></div>
+    <div id="ejemplo2"></div>
+    <div id="ejemplo3"></div>
+    <script type="text/jsx">
+        var Componente = React.createClass({
+            render: function() {
+                return (<h1>Título</h1>);
+            }
+        });
+
+        var Componente2 = React.createClass({
+            render: function() {
+                return (<h1>Segundo Título</h1>);
+            }
+        });
+
+        var Componente3 = React.createClass({
+            render: function() {
+                return React.DOM.div({children: [React.DOM.span({children:"Ejemplo 3"}), React.DOM.span({children:"Ejemplo 3"})]});
+            }
+        });
+
+        React.renderComponent(<Componente/>,document.getElementById('ejemplo'));
+        React.renderComponent(<Componente2/>,document.getElementById('ejemplo2'));
+        React.renderComponent(Componente3({}),document.getElementById('ejemplo3'));
+    </script>
+</body>
+</html>
