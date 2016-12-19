@@ -33,6 +33,34 @@
                 </ul>;
             }
         });
+
+        var AplicacionTarea = React.createClass({
+            getInitialState: function() {
+                return {
+                    ElementosLista: ["Elemento 1", "Elemento 2"],
+                    text: ''
+                };
+            },
+            render: function() {
+                return (
+                    <div>
+                        <h3>Lista de Tareas</h3>
+                        
+                        <form>
+                            <input className="form-control" placeholder="Agregar a la lista"/>
+                            <br/>
+                            <button className="btn btn-success btn-block">
+                                {'Agregar a lista #' + (this.state.ElementosLista.length)}
+                            </button>
+                        </form>
+                        <br/>
+                        <ListaTareas ElementosLista={this.state.ElementosLista} />
+                    </div>
+                );
+            }
+        });
+
+        React.render(<AplicacionTarea />, document.getElementById('Tareas'));
     </script>
 </body>
 </html>
