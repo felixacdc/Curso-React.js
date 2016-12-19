@@ -22,7 +22,7 @@
                 return <li className="ui-state-default">
                     <div className="checkbox">
                         <label>
-                            <button className="btn btn-danger">X</button> {itemText}
+                            <button className="btn btn-danger" onClick={this.props.EstadoBorrar.bind(this, itemText)}>X</button> {itemText}
                         </label>
                     </div>
                 </li>;
@@ -41,20 +41,40 @@
                     text: ''
                 };
             },
+            EstadoBorrar: function(itemToDelete, e) {
+                var LosElementosLista = this.state.ElementosLista;
+                var indice = LosElementosLista.indexOf(itemToDelete);
+                LosElementosLista.splice(indice, 1);
+                this.setState({ElementosLista: LosElementosLista});
+            },
+            EstadoCambio: function(e) {
+                this.setState({text: e.target.value});
+            },
+            EstadoSubmit: function(e) {
+                e.preventDefault();
+                var nextElementosLista = this.state.ElementosLista.concat([this.state.text]);
+                var nextText = "";
+                this.setState({
+                    ElementosLista: nextElementosLista,
+                    text: nextText
+                });
+            },
             render: function() {
                 return (
                     <div>
                         <h3>Lista de Tareas</h3>
                         
-                        <form>
-                            <input className="form-control" placeholder="Agregar a la lista"/>
+                        <form onSubmit={this.EstadoSubmit}>
+                            <input className="form-control" placeholder="Agregar a la lista" onChange={this.EstadoCambio} value={this.state.text}/>
                             <br/>
                             <button className="btn btn-success btn-block">
                                 {'Agregar a lista #' + (this.state.ElementosLista.length)}
                             </button>
                         </form>
                         <br/>
-                        <ListaTareas ElementosLista={this.state.ElementosLista} />
+                        <ListaTareas ElementosLista={this.state.ElementosLista} 
+                            EstadoBorrar={this.EstadoBorrar}
+                        />
                     </div>
                 );
             }
