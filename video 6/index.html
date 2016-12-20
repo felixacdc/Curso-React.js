@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <script src="http://fb.me/react-with-addons-0.12.0.js"></script>
     <script src="http://fb.me/JSXTransformer-0.12.0.js"></script>
+    <script src="jquery-3.1.1.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -22,7 +23,7 @@
                 return <li className="ui-state-default">
                     <div className="checkbox">
                         <label>
-                            <button className="btn btn-danger" onClick={this.props.EstadoBorrar.bind(this, itemText)}>X</button> {itemText}
+                            <button className="btn btn-danger" onClick={this.props.EstadoBorrar.bind(this, itemText)}>X</button> {itemText.titulo}
                         </label>
                     </div>
                 </li>;
@@ -37,9 +38,17 @@
         var AplicacionTarea = React.createClass({
             getInitialState: function() {
                 return {
-                    ElementosLista: ["Elemento 1", "Elemento 2"],
+                    ElementosLista: [{id: 5, titulo: "Elemento 1", estatus: 1}, {id: 6, titulo: "Elemento 2", estatus: 1}],
                     text: ''
                 };
+            },
+            componentWillMount: function() {
+                this.actualizarInformacion();  
+            },
+            actualizarInformacion: function() {
+                $.get("backend.php", function(resultado) {
+                    this.setState({ElementosLista: resultado});
+                }.bind(this));
             },
             EstadoBorrar: function(itemToDelete, e) {
                 var LosElementosLista = this.state.ElementosLista;
