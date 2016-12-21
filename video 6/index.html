@@ -61,11 +61,18 @@
             },
             EstadoSubmit: function(e) {
                 e.preventDefault();
-                var nextElementosLista = this.state.ElementosLista.concat([this.state.text]);
-                var nextText = "";
-                this.setState({
-                    ElementosLista: nextElementosLista,
-                    text: nextText
+                $.ajax({
+                    url: "backend.php",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {
+                        titulo: this.state.text,
+                        accion: 1
+                    },
+                    success: (data) => {
+                        console.log(data);
+                        this.actualizarInformacion();        
+                    }
                 });
             },
             render: function() {
