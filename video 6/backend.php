@@ -11,7 +11,7 @@
                 $statement->execute(array('titulo' => $_POST['titulo']));
                 
                 header('Content-Type: application/json');
-                $results = ['response' => 'bien =)'];
+                $results = ['response' => 'bien guardar =)'];
                 $json = json_encode($results);
                 echo $json;
                 
@@ -21,6 +21,11 @@
             case 2:
                 $statement = $pdo->prepare('DELETE FROM tareas WHERE id = :id');
                 $statement->execute(array('id' => $_POST['id']));
+                
+                header('Content-Type: application/json');
+                $results = ['response' => 'bien borrar =)'];
+                $json = json_encode($results);
+                echo $json;
             break;
 
             // Modifica la información

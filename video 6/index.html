@@ -18,11 +18,15 @@
       </div>
     </div>
     <script type="text/jsx">
+    
+        var Esperar = {color: 'blue'};
+        var Listo = {color: 'red'};
+
         var ListaTareas = React.createClass({
             CrearElementosDeLista: function(itemText) {
                 return <li className="ui-state-default">
                     <div className="checkbox">
-                        <label>
+                        <label style={itemText.estatus==0?Listo:Esperar}>
                             <button className="btn btn-danger" onClick={this.props.EstadoBorrar.bind(this, itemText)}>X</button> {itemText.titulo}
                         </label>
                     </div>
@@ -51,10 +55,20 @@
                 }.bind(this));
             },
             EstadoBorrar: function(itemToDelete, e) {
-                var LosElementosLista = this.state.ElementosLista;
-                var indice = LosElementosLista.indexOf(itemToDelete);
-                LosElementosLista.splice(indice, 1);
-                this.setState({ElementosLista: LosElementosLista});
+                e.preventDefault();
+                $.ajax({
+                    url: "backend.php",
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {
+                        id: itemToDelete.id,
+                        accion: 2
+                    },
+                    success: (data) => {
+                        console.log(data);
+                        this.actualizarInformacion();        
+                    }
+                });
             },
             EstadoCambio: function(e) {
                 this.setState({text: e.target.value});
