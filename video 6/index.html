@@ -24,12 +24,14 @@
 
         var ListaTareas = React.createClass({
             CrearElementosDeLista: function(itemText) {
-                return <li className="ui-state-default">
-                    <div className="checkbox">
-                        <label style={itemText.estatus==0?Listo:Esperar}>
-                            <button className="btn btn-danger" onClick={this.props.EstadoBorrar.bind(this, itemText)}>X</button> {itemText.titulo}
-                        </label>
+                return <li className="ui-state-default list-group-item">
+                    <div className="col-md-11">
+                        <input type="checkbox" ref={itemText.id} onChange={this.props.EstadoTareaRealizada.bind(this, itemText)} checked={itemText.estatus==0?true:false} />
+                        <span style={itemText.estatus==0?Listo:Esperar}>
+                            &nbsp;{itemText.titulo}
+                        </span>
                     </div>
+                    <a className="btn btn-danger" onClick={this.props.EstadoBorrar.bind(this, itemText)}>X</a>
                 </li>;
             },
             render: function() {
@@ -73,6 +75,9 @@
             EstadoCambio: function(e) {
                 this.setState({text: e.target.value});
             },
+            EstadoTareaRealizada: function(ElementoAModificar, e) {
+                
+            },
             EstadoSubmit: function(e) {
                 e.preventDefault();
                 $.ajax({
@@ -103,7 +108,7 @@
                         </form>
                         <br/>
                         <ListaTareas ElementosLista={this.state.ElementosLista} 
-                            EstadoBorrar={this.EstadoBorrar}
+                            EstadoBorrar={this.EstadoBorrar} EstadoTareaRealizada={this.EstadoTareaRealizada}
                         />
                     </div>
                 );
