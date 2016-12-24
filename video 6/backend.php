@@ -30,7 +30,13 @@
 
             // Modifica la información
             case 3:
-
+                $statement = $pdo->prepare("UPDATE tareas SET estatus=:estatus WHERE id=:id");
+                $statement->execute(array("estatus" => $_POST['estatus'], "id" => $_POST['id']));
+                
+                header('Content-Type: application/json');
+                $results = ['response' => 'bien Modificar =)'];
+                $json = json_encode($results);
+                echo $json;
             break;
 
             // Opcion invalida

@@ -76,7 +76,23 @@
                 this.setState({text: e.target.value});
             },
             EstadoTareaRealizada: function(ElementoAModificar, e) {
+                var indice = this.state.ElementosLista.indexOf(ElementoAModificar);
+                var valorEstatus = this.state.ElementosLista[indice].estatus = (this.state.ElementosLista[indice].estatus==1)?0:1;
                 
+                $.ajax({
+                    url: 'backend.php',
+                    dataType: 'json',
+                    type: 'POST',
+                    data: {
+                        estatus: valorEstatus,
+                        id: ElementoAModificar.id,
+                        accion: 3
+                    },
+                    success: (data) => {
+                        console.log(data);
+                        this.setState({ElementosLista: this.state.ElementosLista});
+                    }
+                })
             },
             EstadoSubmit: function(e) {
                 e.preventDefault();
