@@ -44,8 +44,9 @@
         var AplicacionTarea = React.createClass({
             getInitialState: function() {
                 return {
-                    ElementosLista: [{id: 5, titulo: "Elemento 1", estatus: 1}, {id: 6, titulo: "Elemento 2", estatus: 1}],
-                    text: ''
+                    ElementosLista: [],
+                    text: '',
+                    ElementosListaTemporal: []
                 };
             },
             componentWillMount: function() {
@@ -54,6 +55,7 @@
             actualizarInformacion: function() {
                 $.get("backend.php", function(resultado) {
                     this.setState({ElementosLista: resultado});
+                    this.setState({ElementosListaTemporal: resultado});
                 }.bind(this));
             },
             EstadoBorrar: function(itemToDelete, e) {
@@ -74,6 +76,13 @@
             },
             EstadoCambio: function(e) {
                 this.setState({text: e.target.value});
+                var updateList = this.state.ElementosListaTemporal;
+                
+                updateList = updateList.filter(function(item) {
+                    return item.titulo.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
+                });
+                
+                this.setState({ElementosLista: updateList});
             },
             EstadoTareaRealizada: function(ElementoAModificar, e) {
                 var indice = this.state.ElementosLista.indexOf(ElementoAModificar);
